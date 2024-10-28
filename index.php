@@ -9,23 +9,38 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #eceff1;
+
+        }
 
         .container{
             position: relative;
         }
 
         .form{
+            width: 200px;
+            height: 200px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%,-50%);
-            margin-top: 250px;
+            margin-top: 200px;
+            background-color: #fff;
         }
 
+        .header {
+            text-align: center;
+            margin-top: 250px;
+        }
+        
+        
     </style>
     <body>
         <div class="container">
-            <h1 class="header">Choose your tranction: </h1>
+            <h2 class="header">Choose your tranction: </h2>
             <form class="form"> 
                     <div class="nav">
                         <ul>
