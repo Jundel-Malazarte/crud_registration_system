@@ -60,8 +60,8 @@
                         <li><a href="register_table.php" class="w3-button w3-block w3-blue">Registration</a></li>
                         <li><a href="attendance.php" class="w3-button w3-block w3-teal">Attendance</a></li>
                         <li><a href="raffle.php" class="w3-button w3-block w3-green">Raffle</a></li>   
-                        <li><a href="#Report.html" class="w3-button w3-block w3-yellow">Report (By Campus)</a></li>   
-                        <li><a href="#Summary.html" class="w3-button w3-block w3-red">Report (Summary)</a></li>
+                        <li><a href="report.php" class="w3-button w3-block w3-yellow">Report (By Campus)</a></li>   
+                        <li><a href="report_summary.php" class="w3-button w3-block w3-red">Report (Summary)</a></li>
                     </ul>
                 </div>
             </form>

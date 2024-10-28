@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Raffle</title>
+    <title>Report</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -14,7 +14,7 @@
         .table-container {
             margin-top: 20px;
         }
-        .winner-message {
+        .report-message {
             font-size: 24px;
             font-weight: bold;
             color: #28a745;
@@ -25,17 +25,20 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="text-center mb-4">Raffle Draw</h2>
+        <h2 class="text-center mb-4">Generate Report</h2>
         
+        <div class="text-right mb-3">
+            <a href="index.php" class="btn btn-primary w3-button w3-blue">Back to menu</a>
+        </div>
+
         <form method="POST" action="">
             <div class="form-group">
                 <label>Filter by Campus:</label><br>
-                <input type="checkbox" name="campus[]" value="Main" <?= isset($_POST['campus']) && in_array('Main', $_POST['campus']) ? 'checked' : '' ?>> Main<br>
-                <input type="checkbox" name="campus[]" value="Banilad" <?= isset($_POST['campus']) && in_array('Banilad', $_POST['campus']) ? 'checked' : '' ?>> Banilad<br>
-                <input type="checkbox" name="campus[]" value="LM" <?= isset($_POST['campus']) && in_array('LM', $_POST['campus']) ? 'checked' : '' ?>> LM<br>
+                <input type="checkbox" name="campus[]" value="Main"> Main<br>
+                <input type="checkbox" name="campus[]" value="Banilad"> Banilad<br>
+                <input type="checkbox" name="campus[]" value="LM"> LM<br>
             </div>
-            <button type="button" class="btn btn-primary w3-button w3-green" onclick="window.location.href='index.php'">Back to menu</button>
-            <button type="submit" class="btn btn-primary w3-button w3-blue">Reveal the Lucky Winner!</button>
+            <button type="submit" class="btn btn-primary w3-button w3-blue">Generate Report</button>
         </form>
 
         <div class="table-container">
@@ -45,6 +48,8 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Campus</th>
+                        <th>Amount</th>
+                        <th>Attended</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,35 +67,27 @@
                     }
                     $whereClause = !empty($campusConditions) ? "WHERE " . implode(' OR ', $campusConditions) : '';
 
-                    // Fetch participants from the database
-                    $sql = "SELECT idNum, CONCAT(fname, ' ', lname) AS Name, campus FROM Registration $whereClause";
+                    // Fetch student details from the database
+                    $sql = "SELECT idNum, CONCAT(fname, ' ', lname) AS Name, campus, amountPaid, attended FROM Registration $whereClause";
                     $result = $conn->query($sql);
 
-                    $participants = [];
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            $participants[] = $row;
                             echo "<tr>";
                             echo "<td>" . $row["idNum"] . "</td>";
                             echo "<td>" . $row["Name"] . "</td>";
                             echo "<td>" . $row["campus"] . "</td>";
+                            echo "<td>Php " . number_format($row["amountPaid"], 2) . "</td>";
+                            echo "<td>" . ($row["attended"] === 'yes' ? 'Yes' : 'No') . "</td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='3' class='text-center'>No participants found.</td></tr>";
+                        echo "<tr><td colspan='5' class='text-center'>No records found.</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
-
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($participants)) {
-            // Select a random winner
-            $winner = $participants[array_rand($participants)];
-            echo "<div class='winner-message'>CONGRATULATIONS!! The Lucky Winner is: " . $winner['Name'] . " (ID: " . $winner['idNum'] . ") from " . $winner['campus'] . "!</div>";
-        }
-        ?>
 
     </div>
     <script src="bootstrap/js/bootstrap.bundle.js"></script>
